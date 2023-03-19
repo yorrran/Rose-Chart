@@ -1,0 +1,98 @@
+[
+  {
+    "month": 1,
+    "instore": 127,
+    "wholesale": 33,
+    "distributor": 47,
+    "online": 69,
+    "monthtotal": 276
+  },
+  {
+    "month": 2,
+    "instore": 112,
+    "wholesale": 24,
+    "distributor": 52,
+    "online": 82,
+    "monthtotal": 270
+  },
+  {
+    "month": 3,
+    "instore": 105,
+    "wholesale": 20,
+    "distributor": 42,
+    "online": 69,
+    "monthtotal": 236
+  },
+  {
+    "month": 4,
+    "instore": 108,
+    "wholesale": 19,
+    "distributor": 49,
+    "online": 86,
+    "monthtotal": 262
+  },
+  {
+    "month": 5,
+    "instore": 111,
+    "wholesale": 28,
+    "distributor": 53,
+    "online": 71,
+    "monthtotal": 263
+  },
+  {
+    "month": 6,
+    "instore": 98,
+    "wholesale": 24,
+    "distributor": 44,
+    "online": 79,
+    "monthtotal": 245
+  },
+  {
+    "month": 7,
+    "instore": 125,
+    "wholesale": 31,
+    "distributor": 43,
+    "online": 82,
+    "monthtotal": 281
+  },
+  {
+    "month": 8,
+    "instore": 91,
+    "wholesale": 30,
+    "distributor": 48,
+    "online": 82,
+    "monthtotal": 251
+  },
+  {
+    "month": 9,
+    "instore": 110,
+    "wholesale": 30,
+    "distributor": 46,
+    "online": 68,
+    "monthtotal": 254
+  },
+  {
+    "month": 10,
+    "instore": 108,
+    "wholesale": 29,
+    "distributor": 54,
+    "online": 91,
+    "monthtotal": 282
+  },
+  {
+    "month": 11,
+    "instore": 105,
+    "wholesale": 38,
+    "distributor": 46,
+    "online": 73,
+    "monthtotal": 262
+  },
+  {
+    "month": 12,
+    "instore": 83,
+    "wholesale": 30,
+    "distributor": 41,
+    "online": 89,
+    "monthtotal": 243
+  }
+]

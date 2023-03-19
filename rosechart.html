@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rose Chart US Regional Sales</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="d3-ez.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="http://rawgit.com/jamesleesaunders/d3.ez/master/dist/d3-ez.css"
+    />
+  </head>
+
+  <body>
+    <div id="chartholder"></div>
+    <br />
+    <div id="message"></div>
+
+    <script type="text/javascript">
+      var margin = { top: 10, right: 20, bottom: 30, left: 50 },
+        width = window.innerWidth - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
+      d3.json("usSales.json").then(function (json) {
+        // Florence Nightingale Data Source: https://pointedanalytics.wordpress.com/2013/07/14/plotting-coxcombs-using-ggplot2/
+        var colors = ["#599ad3", "#727272", "#f1595f", "#37306B"];
+        var chart = d3.ez.chart.roseChart().colors(colors);
+        var legend = d3.ez.component.legend().title("Causes of Mortality");
+        var title = d3.ez.component
+          .title()
+          .mainText("US Regional Sales of Different Channels 2020")
+          .subText("January 2020 to December 2020");
+        // Convert json to d3-ez data format
+        var monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ];
+        var data = d3
+          .nest()
+          .key(function (d) {
+            return monthNames[d.month];
+          })
+          .entries(json)
+          .map(function (obj) {
+            var rec = obj.values[0];
+            var scalar = 1000 / rec.monthtotal;
+            var datetime = new Date(rec.month);
+            const typeSalesCount = {
+              instore: rec.instore,
+              online: rec.online,
+              distributor: rec.distributor,
+              wholesale: rec.wholesale
+            };
+            const typeSalesArr = Object.keys(typeSalesCount).reduce(
+              (array, key) => {
+                array.push({ key: key, value: typeSalesCount[key] });
+                return array;
+              },
+              []
+            );
+            const sortedTypeSales = typeSalesArr.sort(
+              (x, y) => y.value - x.value
+            );
+            const valuesToChart = typeSalesArr.map((sale) => {
+              const value = {
+                key: sale.key,
+                value: (sale.value * scalar) / Math.PI,
+                data: { month: rec.month, value: sale.value }
+              };
+              return value;
+            });
+
+            var values = {
+              key: monthNames[rec.month - 1],
+              datetime: datetime,
+              values: valuesToChart
+            };
+            return values;
+          });
+        var time;
+        var Tooltip = d3
+          .select("#chartholder")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "#A4907C")
+          .style("padding", "5px")
+          .style("position", "absolute");
+        // Create chart base
+        var myChart = d3.ez
+          .base()
+          .width(width)
+          .height(height)
+          .chart(chart)
+          .legend(legend)
+          .title(title)
+          .on("customValueMouseOver", function (d) {
+            clearTimeout(time);
+            Tooltip.style("opacity", 100);
+            Tooltip.html(
+              "Sale Channel: " +
+                d.key +
+                "<br/>" +
+                "Month: " +
+                d.data.month +
+                "<br/>" +
+                "Total: " +
+                d.data.value
+            )
+              .style("left", d3.mouse(this)[0] + width / 2 - 30 + "px")
+              .style("top", d3.mouse(this)[1] + height / 2 + "px");
+            // d3.select("#message").html("Cause: " + d.key + "<br/>" + "Month: " + d.data);
+          })
+          .on("customValueMouseOut", function (d) {
+            // console.log("customValueMouseOut:", d);
+            time = setTimeout(() => Tooltip.style("opacity", 0), 100);
+          });
+
+        // Add to page
+        d3.select("#chartholder").datum(data).call(myChart);
+      });
+    </script>
+  </body>
+</html>
